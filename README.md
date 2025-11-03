@@ -1,9 +1,13 @@
 
 # MGG GH5 - ANÁLISIS DE CONSANGUINIDAD
 breve introducción teórica de la consanguinidad y los estimadores. Depresión consanguínea
+
 breve explicación de la utilidad de las simulaciones
+
 breve explicación de slim
+
 breve mención a los datos humanos que se utilizarán. Consanguinidad en poblaciones humanas
+
 Tabla resumen de F ejemplo resultado de apareamientos entre familiares.
 
 
