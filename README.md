@@ -1,14 +1,14 @@
 
 # MGG GH5 - ANÁLISIS DE CONSANGUINIDAD
-breve introducción teórica de la consanguinidad y los estimadores. Depresión consanguínea
+* breve introducción teórica de la consanguinidad y los estimadores. Depresión consanguínea
 
-breve explicación de la utilidad de las simulaciones
+* breve explicación de la utilidad de las simulaciones
 
-breve explicación de slim
+* breve explicación de slim
 
-breve mención a los datos humanos que se utilizarán. Consanguinidad en poblaciones humanas
+* breve mención a los datos humanos que se utilizarán. Consanguinidad en poblaciones humanas
 
-Tabla resumen de F ejemplo resultado de apareamientos entre familiares.
+* Tabla resumen de F ejemplo resultado de apareamientos entre familiares.
 
 
 ## Scripts necesarios
@@ -26,8 +26,8 @@ ls
 
 
 ## Simulación de poblaciones
-breve descripción del script
-descripción de los escenarios (figura de N para mostrar el cuello de botella)
+* breve descripción del script
+* descripción de los escenarios (figura de N para mostrar el cuello de botella)
 
 ```
 sbatch script_run_SLiM.sh slim3INPUT_random_mating
