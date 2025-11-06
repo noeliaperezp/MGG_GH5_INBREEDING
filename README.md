@@ -84,7 +84,7 @@ plink2 --vcf ../data/slim3INPUT_random_mating.vcf.gz --make-bed --max-alleles 2 
 Asigna nuevos identificadores a variantes sin nombre:
 ```
 plink2 --bfile slim3INPUT_random_mating.SNPs --set-missing-var-ids @:# --make-bed --out slim3INPUT_random_mating.SNPid
-rm chr22_pop_dist.SNPs*
+rm slim3INPUT_random_mating.SNPs*
 ```
 
 Elimina SNPs duplicados:
@@ -105,9 +105,6 @@ plink2 --bfile slim3INPUT_random_mating.filtered --indep-pairwise 50 5 0.9 --out
 plink2 --bfile slim3INPUT_random_mating.filtered --extract slim3INPUT_random_mating.plink2.prune.in --make-bed --out slim3INPUT_random_mating_pruned
 rm slim3INPUT_random_mating.filtered*
 rm slim3INPUT_random_mating.plink2*
-rm *.in
-rm *.out
-rm *.log
 ```
 
 Retorna al directorio principal (“$LUSTRE/MGG_GH5/INBREEDING”):
@@ -152,11 +149,11 @@ cd results_inbreeding/slim3INPUT_random_mating_pruned/
 
 #### --het (FLH, Fhom)
 ```
-plink --bfile $WDIR/data_pruned/slim3INPUT_random_mating_pruned --het --out slim3INPUT_random_mating_pruned.Fhet
+plink --bfile ../../data_pruned/slim3INPUT_random_mating_pruned --het --out slim3INPUT_random_mating_pruned.Fhet
 
 sed '1d' slim3INPUT_random_mating_pruned.Fhet.het > temp1       # remove headers
-awk '{print ($3/$5)}' temp1 > temp2      # calculate average number of homozygous SNPs
-sed -i '1i Fhom' temp2                   # add header
+awk '{print ($3/$5)}' temp1 > temp2                             # calculate average number of homozygous SNPs
+sed -i '1i Fhom' temp2                                          # add header
 paste slim3INPUT_random_mating_pruned.Fhet.het temp2 > temp3    # add new column 'Fhom'
 rm temp1 temp2 slim3INPUT_random_mating_pruned.Fhet.het         # delete unnecessary files
 mv temp3 slim3INPUT_random_mating_pruned.Fhet.het               # rename the final output file
@@ -173,7 +170,7 @@ Encabezados del output **.het*
 
 #### --ibc (FhatI, FhatII, FhatII)
 ```
-plink --bfile $WDIR/data_pruned/slim3INPUT_random_mating_pruned --ibc --out slim3INPUT_random_mating_pruned.Fibc
+plink --bfile ../../data_pruned/slim3INPUT_random_mating_pruned --ibc --out slim3INPUT_random_mating_pruned.Fibc
 ```
 Encabezados del output **.ibc*
 - FID: ID de la familia
@@ -183,12 +180,12 @@ Encabezados del output **.ibc*
 
 #### --homozyg (FROH, ROH > 0.1 Mb)
 ```
-plink --bfile $WDIR/data_pruned/slim3INPUT_random_mating_pruned --homozyg-kb 100 --homozyg --out slim3INPUT_random_mating_pruned.FROH01
+plink --bfile ../../data_pruned/slim3INPUT_random_mating_pruned --homozyg-kb 100 --homozyg --out slim3INPUT_random_mating_pruned.FROH01
 
 sed '1d' slim3INPUT_random_mating_pruned.FROH01.hom.indiv > temp1     # remove headers
-awk '{print ($5/100000)}' temp1 > temp2       # calculate FROH (genome length 100Mb = 100000Kb)
-sed -i '1i FROH01' temp2                       # add header
-paste slim3INPUT_random_mating_pruned.FROH01.hom.indiv temp2 > tem p3  # add new column 'FROH'
+awk '{print ($5/100000)}' temp1 > temp2                               # calculate FROH (genome length 100Mb = 100000Kb)
+sed -i '1i FROH01' temp2                                              # add header
+paste slim3INPUT_random_mating_pruned.FROH01.hom.indiv temp2 > temp3  # add new column 'FROH'
 rm temp1 temp2 slim3INPUT_random_mating_pruned.FROH01.hom.indiv       # delete unnecessary files
 mv temp3 slim3INPUT_random_mating_pruned.FROH01.hom.indiv             # rename the final output file
 ```
@@ -217,11 +214,11 @@ Encabezados del output **.hom.indiv*
 
 #### --homozyg (FROH, ROH > 1 Mb)
 ```
-plink --bfile $WDIR/data_pruned/slim3INPUT_random_mating_pruned --homozyg-kb 1000 --homozyg --out slim3INPUT_random_mating_pruned.FROH1
+plink --bfile ../../data_pruned/slim3INPUT_random_mating_pruned --homozyg-kb 1000 --homozyg --out slim3INPUT_random_mating_pruned.FROH1
 
 sed '1d' slim3INPUT_random_mating_pruned.FROH1.hom.indiv > temp1     # remove headers
-awk '{print ($5/100000)}' temp1 > temp2       # calculate FROH (genome length 100Mb = 100000Kb)
-sed -i '1i FROH1' temp2                       # add header
+awk '{print ($5/100000)}' temp1 > temp2                              # calculate FROH (genome length 100Mb = 100000Kb)
+sed -i '1i FROH1' temp2                                              # add header
 paste slim3INPUT_random_mating_pruned.FROH1.hom.indiv temp2 > temp3  # add new column 'FROH'
 rm temp1 temp2 slim3INPUT_random_mating_pruned.FROH1.hom.indiv       # delete unnecessary files
 mv temp3 slim3INPUT_random_mating_pruned.FROH1.hom.indiv             # rename the final output file
@@ -229,11 +226,11 @@ mv temp3 slim3INPUT_random_mating_pruned.FROH1.hom.indiv             # rename th
 
 #### --homozyg (FROH, ROH > 5 Mb)
 ```
-plink --bfile $WDIR/data_pruned/slim3INPUT_random_mating_pruned --homozyg-kb 5000 --homozyg --out slim3INPUT_random_mating_pruned.FROH5
+plink --bfile ../../data_pruned/slim3INPUT_random_mating_pruned --homozyg-kb 5000 --homozyg --out slim3INPUT_random_mating_pruned.FROH5
 
 sed '1d' slim3INPUT_random_mating_pruned.FROH5.hom.indiv > temp1     # remove headers
-awk '{print ($5/100000)}' temp1 > temp2       # calculate FROH (genome length 100Mb = 100000Kb)
-sed -i '1i FROH5' temp2                       # add header
+awk '{print ($5/100000)}' temp1 > temp2                              # calculate FROH (genome length 100Mb = 100000Kb)
+sed -i '1i FROH5' temp2                                              # add header
 paste slim3INPUT_random_mating_pruned.FROH5.hom.indiv temp2 > temp3  # add new column 'FROH'
 rm temp1 temp2 slim3INPUT_random_mating_pruned.FROH5.hom.indiv       # delete unnecessary files
 mv temp3 slim3INPUT_random_mating_pruned.FROH5.hom.indiv             # rename the final output file
