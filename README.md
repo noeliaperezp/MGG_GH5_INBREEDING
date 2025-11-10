@@ -292,6 +292,20 @@ Cálculo de la consanguinidad
 sbatch script_estimate_inbreeding.sh pop_ID_pruned
 ```
 
-La pendiente de la regresión lineal proporciona una estima del porcentaje de cambio en la media por cada aumento de 0,01 (1%) en la consanguinidad.
+La pendiente de la regresión lineal proporciona una estima del porcentaje de cambio en la media por cada aumento de 0,01 (1%) en la consanguinidad. 
 
+
+### *Transferencia de ficheros del CESGA a tu sistema local*
+
+Representaremos los resultados en RStudio. Para ello necesitarás transferir los resultados del cálculo de la consanguinidad molecular a tu sistema local. También necesitarás el archivo **.phe* con los fenotipos de cada individuo. Para transferir estos archivos puedes usar el programa WinSCP, o alternativamente usando el comando *scp* desde tu máquina local. Recuerda cambiar:
+
+- *username* por tu nombre de usuario
+- */path* por la ruta que te devuelve *pwd* en el CESGA
+
+```
+scp -o MACs=hmac-sha2-512 username@ft3.cesga.es:/path/results_inbreeding/pop_ID_pruned/pop_ID_pruned.inbreeding .
+scp -o MACs=hmac-sha2-512 username@ft3.cesga.es:/path/data/pop_ID.phe .
+```
+
+Una vez transferidos los resultados, abre RStudio y asegúrate de que te encuentras en la carpeta que contiene los resultados. A continuación copia y ejecuta las líneas de código que encontrarás en el script inbreeding_figures.R.
 
