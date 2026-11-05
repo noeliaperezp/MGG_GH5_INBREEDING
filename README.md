@@ -133,7 +133,7 @@ ls data_pruned/
 
 En *PLINK* existen tres comandos que permiten obtener diversos estimadores de consanguinidad. 
 
-El comando *--het* calcula los recuentos de genotipos homocigotos observados y esperados para cada individuo y estima la consanguinidad basada en la desviación de las proporciones de Hardy-Weinberg (*F(sub)LH*). El comando *--ibc* calcula diversos estimadores basados en derivaciones de deriva genética, incluyendo el coeficiente *F* de Yang. 
+El comando *--het* calcula los recuentos de genotipos homocigotos observados y esperados para cada individuo y estima la consanguinidad basada en la desviación de las proporciones de Hardy-Weinberg (*F<sub>LH*). El comando *--ibc* calcula diversos estimadores basados en derivaciones de deriva genética, incluyendo el coeficiente *F* de Yang. 
 
 El comando *--homozyg* infiere consanguidad a partir de los ROH. Un aspecto destacable de los ROH es que su longitud esperada sigue una distribución exponencial con media 1/2G Morgan, donde G es el número de generaciones hasta el ancestro común del que se derivó el segmento. Este aspecto puede utilizarse para distinguir parentesco reciente y lejano. Por ello, utilizaremos tres límites para el tamaño mínimo de los ROH (0.1Mb y 500 generaciones ancestrales, 1Mb y 50 generaciones ancestrales, y 5Mb y 10 generaciones ancestrales).
 
