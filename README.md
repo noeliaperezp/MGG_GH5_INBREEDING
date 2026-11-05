@@ -5,7 +5,7 @@ La consanguinidad (consecuencia del apareamiento entre individuos emparentados) 
 
 La depresión consanguínea se puede estimar a partir de la pendiente de la regresión lineal de los valores fenotípicos de los individuos en función de sus coeficientes de consanguinidad. El grado de consanguinidad de un individuo se cuantifica mediante el coeficiente de consanguinidad *F* (Wright, 1922), que representa la probabilidad de que dos alelos en un locus sean idénticos por descendencia (IBD). Tradicionalmente, este coeficiente se ha estimado a partir de genealogías, lo que conlleva una serie de limitaciones: las genealogías suelen ser incompletas o inexistentes y solo reflejan expectativas teóricas, por lo que pueden diferir del nivel real de consanguinidad de cada individuo. Actualmente, la gran disponibilidad de marcadores moleculares (SNPs) permite estimar la consanguinidad de un individuo sin necesidad de datos genealógicos. A estas medidas se les conoce como consanguinidad molecular o genómica, y proporcionan estimaciones más precisas de la fracción del genoma que realmente es idéntica por descendencia, por lo que constituyen una herramienta muy útil para detectar depresión consanguínea. 
 
-Existen distintos estimadores genómicos de F. Algunos se basan en el análisis SNP por SNP, que dependen de las frecuencias alélicas, y otros se basan en la detección de Runs of Homozygosity (ROH), que son regiones del genoma que son homocigotas para la gran mayoría de las bases nucleotídicas. Los métodos basados en el análisis SNP por SNP suelen utilizar las frecuencias de la generación actual, ya que, por lo general, se desconocen las frecuencias de generaciones anteriores (población de partida o población de referencia). En estos casos, estas estimaciones reflejan desviaciones de las frecuencias esperadas en el equilibrio de Hardy-Weinberg o correlaciones entre alelos, por lo que pueden adoptar valores negativos. Las estimaciones basadas en ROH, en cambio, proporcionan medidas de IBD. Aún existe debate sobre qué estimador refleja mejor la depresión consanguínea, pero tanto las medidas basadas en SNP como las basadas en ROH han demostrado ser eficaces para detectarla. En poblaciones donde no hay información histórica ni genealogías, las estimaciones genómicas de *F* ofrecen una herramienta práctica y potente para estudiar la consanguinidad y sus efectos sobre la eficacia.
+Existen distintos estimadores genómicos de *F*. Algunos se basan en el análisis SNP por SNP, que dependen de las frecuencias alélicas (e.g., el coeficiente *F* de Yang; Yang *et al.*, 2011), y otros se basan en la detección de Runs of Homozygosity (ROH), que son regiones del genoma que son homocigotas para la gran mayoría de las bases nucleotídicas. Los métodos basados en el análisis SNP por SNP suelen utilizar las frecuencias de la generación actual, ya que, por lo general, se desconocen las frecuencias de generaciones anteriores (población de partida o población de referencia). En estos casos, estas estimaciones reflejan desviaciones de las frecuencias esperadas en el equilibrio de Hardy-Weinberg o correlaciones entre alelos, por lo que pueden adoptar valores negativos. Las estimaciones basadas en ROH, en cambio, proporcionan medidas de IBD. Aún existe debate sobre qué estimador refleja mejor la depresión consanguínea, pero tanto las medidas basadas en SNP como las basadas en ROH han demostrado ser eficaces para detectarla. En poblaciones donde no hay información histórica ni genealogías, las estimaciones genómicas de *F* ofrecen una herramienta práctica y potente para estudiar la consanguinidad y sus efectos sobre la eficacia.
 
 En esta sesión práctica aprenderemos a calcular la consanguinidad genómica con diversos estimadores y a estimar la depresión consanguínea a partir de ellos. Para ello, dividiremos la sesión en tres secciones:
 1. Estimación de la consanguinidad genómica en poblaciones simuladas:
@@ -54,13 +54,17 @@ Comprueba que se han enviado los trabajos y su estado de ejecución.
 squeue
 ```
 
-Una vez finalizado (*squeue* no devuelve ningún trabajo), verás que se ha creado un nuevo directorio *data*. En él encontrarás, para cada uno de los cuatro escenarios poblacionales, dos archivos:
-- **.txt*, con información del número del tamaño poblacional por generación, entre otra información.
-- **.vcf*, los archivos de VCF (Variant Call Format) con las variantes simuladas.
+Una vez finalizado (*squeue* no devuelve ningún trabajo), encontrarás en el directorio *Data* dos nuevos archivos para cada uno de los escenarios poblacionales:
+```
+ls data/
+```
+
+- **.txt*, con información sobre el tamaño poblacional por generación y heterocigosidad.
+- **.vcf*, archivo VCF (Variant Call Format) con las variantes simuladas.
 
 ### *Filtrado de datos*
 
-Por lo general, los cálculos realizados por *PLINK* para estimar la consanguinidad no tienen en cuenta el desequilibrio de ligamiento (LD). Además, algunos de los estimadores basados en SNP por SNP son sensibles a las variantes rara. Por este motivo, suele recomendarse realizar algún tipo de filtrado.
+Por lo general, los cálculos realizados por *PLINK* para estimar la consanguinidad no tienen en cuenta el desequilibrio de ligamiento (LD). Además, algunos de los estimadores basados en SNP por SNP son sensibles a las variantes raras. Por este motivo, en ocasiones puede ser recomendable realizar algún tipo de filtrado.
 
 Empezaremos el filtrado con la población simulada bajo panmixia (*slim3INPUT_random_mating*).
 
@@ -77,7 +81,7 @@ cd data_pruned/
 
 Retén variantes bialélicas (SNPs) y genera los archivos con formato plink (.bed,.fam,.bim):
 ```
-plink2 --vcf ../data/slim3INPUT_random_mating.vcf.gz --make-bed --max-alleles 2 --snps-only --out slim3INPUT_random_mating.SNPs
+plink2 --vcf ../data/slim3INPUT_random_mating.vcf --make-bed --max-alleles 2 --snps-only --out slim3INPUT_random_mating.SNPs
 ```
 
 Asigna nuevos identificadores a variantes sin nombre:
@@ -129,9 +133,9 @@ ls data_pruned/
 
 En *PLINK* existen tres comandos que permiten obtener diversos estimadores de consanguinidad. 
 
-El comando *--het* calcula los recuentos de genotipos homocigotos observados y esperados para cada individuo y estima la consanguinidad basada en la desviación de las proporciones de Hardy-Weinberg. El comando *--ibc* calcula diversos estimadores basados en derivaciones de deriva genética. 
+El comando *--het* calcula los recuentos de genotipos homocigotos observados y esperados para cada individuo y estima la consanguinidad basada en la desviación de las proporciones de Hardy-Weinberg (*F(sub)LH*). El comando *--ibc* calcula diversos estimadores basados en derivaciones de deriva genética, incluyendo el coeficiente *F* de Yang. 
 
-El comando *--homozyg* infiere consanguidad a partir de los ROH. Un aspecto destacable de los ROH es que su longitud esperada sigue una distribución exponencial con media 1/2G Morgan, donde G es el número de generaciones hasta el ancestro común del que se derivó el segmento. Este aspecto puede utilizarse para distinguir parentesco reciente y lejano. Por ello, utilizaremos tres límites para el tamaño mínimo de los ROH (0.1Mb y 500 generaciones ancestrales, 1Mb y 50 generaciones ancestrales, y 5Mb y10 generaciones ancestrales).
+El comando *--homozyg* infiere consanguidad a partir de los ROH. Un aspecto destacable de los ROH es que su longitud esperada sigue una distribución exponencial con media 1/2G Morgan, donde G es el número de generaciones hasta el ancestro común del que se derivó el segmento. Este aspecto puede utilizarse para distinguir parentesco reciente y lejano. Por ello, utilizaremos tres límites para el tamaño mínimo de los ROH (0.1Mb y 500 generaciones ancestrales, 1Mb y 50 generaciones ancestrales, y 5Mb y 10 generaciones ancestrales).
 
 Empezaremos con la población simulada bajo panmixia (*slim3INPUT_random_mating_pruned*).
 
