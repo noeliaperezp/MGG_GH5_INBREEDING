@@ -121,7 +121,6 @@ Para filtrar las poblaciones restantes utilizaremos el mismo código desde un sc
 
 ```
 sbatch script_data_filtering.sh slim3INPUT_bottleneck
-sbatch script_data_filtering.sh slim3INPUT_partial_selfing
 sbatch script_data_filtering.sh slim3INPUT_preference_for_kin
 ```
 
@@ -151,7 +150,7 @@ mkdir -p results_inbreeding/slim3INPUT_random_mating_pruned
 cd results_inbreeding/slim3INPUT_random_mating_pruned/
 ```
 
-#### --het (F<sub>LH, F<sub>hom )
+#### --het (F<sub>LH</sub>, F<sub>hom</sub>)
 ```
 plink --bfile ../../data_pruned/slim3INPUT_random_mating_pruned --het --out slim3INPUT_random_mating_pruned.Fhet
 
@@ -172,7 +171,7 @@ Encabezados del output **.het*
 - F: Estima del coeficiente de consanguinidad F
 - (Añadido) Fhom: Proporción de SNP homocigotos
 
-#### --ibc (FhatI, FhatII, FhatII)
+#### --ibc (F<sub>hatI</sub>, F<sub>hatII</sub>, F<sub>hatII</sub>)
 ```
 plink --bfile ../../data_pruned/slim3INPUT_random_mating_pruned --ibc --out slim3INPUT_random_mating_pruned.Fibc
 
@@ -186,12 +185,12 @@ Encabezados del output **.ibc*
 - NOMISS: Número de genotipos
 - Fhat1, Fhat2, Fhat3 (*F<sub>Yang*): Estimas del coeficiente de consanguinidad *F*
 
-#### --homozyg (FROH, ROH > 0.1 Mb)
+#### --homozyg (F<sub>ROH</sub>, ROH > 0.1 Mb)
 ```
 plink --bfile ../../data_pruned/slim3INPUT_random_mating_pruned --homozyg-kb 100 --homozyg --out slim3INPUT_random_mating_pruned.FROH01
 
 sed '1d' slim3INPUT_random_mating_pruned.FROH01.hom.indiv > temp1     # remove headers
-awk '{print ($5/100000)}' temp1 > temp2                               # calculate FROH (genome length 100Mb = 100000Kb)
+awk '{print ($5/1000000)}' temp1 > temp2                              # calculate FROH (genome length 100Mb = 1000000Kb)
 sed -i '1i FROH01' temp2                                              # add header
 paste slim3INPUT_random_mating_pruned.FROH01.hom.indiv temp2 > temp3  # add new column 'FROH'
 rm temp1 temp2 slim3INPUT_random_mating_pruned.FROH01.hom.indiv       # delete unnecessary files
@@ -209,8 +208,8 @@ Encabezados del output **.hom*
 - KB: Longitud del segmento (kb)
 - NSNP: Número de SNPs in ROH
 - DENSITY: Densidad media de SNPs (1 SNP per kb)
-- PHOM: Proporción de sitios homocigot
-- PHET: Proporción de sitios heterocigo
+- PHOM: Proporción de sitios homocigotos
+- PHET: Proporción de sitios heterocigos
 
 Encabezados del output **.hom.indiv*
 - FID: ID de la familia
@@ -225,7 +224,7 @@ Encabezados del output **.hom.indiv*
 plink --bfile ../../data_pruned/slim3INPUT_random_mating_pruned --homozyg-kb 1000 --homozyg --out slim3INPUT_random_mating_pruned.FROH1
 
 sed '1d' slim3INPUT_random_mating_pruned.FROH1.hom.indiv > temp1     # remove headers
-awk '{print ($5/100000)}' temp1 > temp2                              # calculate FROH (genome length 100Mb = 100000Kb)
+awk '{print ($5/1000000)}' temp1 > temp2                             # calculate FROH (genome length 100Mb = 1000000Kb)
 sed -i '1i FROH1' temp2                                              # add header
 paste slim3INPUT_random_mating_pruned.FROH1.hom.indiv temp2 > temp3  # add new column 'FROH'
 rm temp1 temp2 slim3INPUT_random_mating_pruned.FROH1.hom.indiv       # delete unnecessary files
@@ -237,54 +236,78 @@ mv temp3 slim3INPUT_random_mating_pruned.FROH1.hom.indiv             # rename th
 plink --bfile ../../data_pruned/slim3INPUT_random_mating_pruned --homozyg-kb 5000 --homozyg --out slim3INPUT_random_mating_pruned.FROH5
 
 sed '1d' slim3INPUT_random_mating_pruned.FROH5.hom.indiv > temp1     # remove headers
-awk '{print ($5/100000)}' temp1 > temp2                              # calculate FROH (genome length 100Mb = 100000Kb)
+awk '{print ($5/1000000)}' temp1 > temp2                              # calculate FROH (genome length 100Mb = 1000000Kb)
 sed -i '1i FROH5' temp2                                              # add header
 paste slim3INPUT_random_mating_pruned.FROH5.hom.indiv temp2 > temp3  # add new column 'FROH'
 rm temp1 temp2 slim3INPUT_random_mating_pruned.FROH5.hom.indiv       # delete unnecessary files
 mv temp3 slim3INPUT_random_mating_pruned.FROH5.hom.indiv             # rename the final output file
 ```
 
-Ahora que tenemos todas las estimas inferidas, genera una tabla resumen con todos los valores:
+Ahora que tenemos todas las estimas inferidas, generaremos una tabla resumen con todos los valores:
 ```
 awk '{print $2 "\t" $7}' slim3INPUT_random_mating_pruned.Fhet.het > temp1     # FHOM
 awk '{print $6}' slim3INPUT_random_mating_pruned.Fibc.ibc > temp2             # Fhat3 (or FYan)
 awk '{print $7}' slim3INPUT_random_mating_pruned.FROH01.hom.indiv > temp3     # FROH01
 awk '{print $7}' slim3INPUT_random_mating_pruned.FROH1.hom.indiv > temp4      # FROH1
 awk '{print $7}' slim3INPUT_random_mating_pruned.FROH5.hom.indiv > temp5      # FROH5
-paste temp1 temp2 temp3 temp4 temp5 > slim3INPUT_random_mating_pruned.inbreeding
+paste temp1 temp2 temp3 temp4 temp5 | column -t > slim3INPUT_random_mating_pruned.inbreeding
 rm temp1 temp2 temp3 temp4 temp5
 ```
 
 Retorna al directorio principal (“$LUSTRE/MGG_GH5/INBREEDING”):
 ```
-cd ..
+cd ../..
 pwd
 ```
 
 Para estimar la consanguinidad en las demás poblaciones simuladas utilizaremos los mismos comandos desde un script.
 ```
 sbatch script_estimate_inbreeding.sh slim3INPUT_bottleneck_pruned
-sbatch script_estimate_inbreeding.sh slim3INPUT_partial_selfing_pruned
 sbatch script_estimate_inbreeding.sh slim3INPUT_preference_for_kin_pruned
+```
+
+Consanguinidad promedio en las tres poblaciones simuladas:
+```
+# Panmixia
+awk 'NR==1 {print; next} {for(i=1;i<=NF;i++) sum[i]+=$i} END {for(i=1;i<=NF;i++) printf "%s%.4f", (i==1?"":" "), sum[i]/(NR-1); print ""}' results_inbreeding/slim3INPUT_random_mating_pruned/slim3INPUT_random_mating_pruned.inbreeding | column -t
+
+# Cuello de botella
+awk 'NR==1 {print; next} {for(i=1;i<=NF;i++) sum[i]+=$i} END {for(i=1;i<=NF;i++) printf "%s%.4f", (i==1?"":" "), sum[i]/(NR-1); print ""}' results_inbreeding/slim3INPUT_bottleneck_pruned/slim3INPUT_bottleneck_pruned.inbreeding | column -t
+
+# Preferencia por apareamientos entre parientes
+awk 'NR==1 {print; next} {for(i=1;i<=NF;i++) sum[i]+=$i} END {for(i=1;i<=NF;i++) printf "%s%.4f", (i==1?"":" "), sum[i]/(NR-1); print ""}' results_inbreeding/slim3INPUT_preference_for_kin_pruned/slim3INPUT_preference_for_kin_pruned.inbreeding | column -t
 ```
 
 ## 2. Estimación de la consanguinidad genómica en poblaciones humanas (Proyecto 1000 Genomas).
 
 Estima la consanguinidad para cada una de las poblaciones humanas, CEU, FIN, Y PJL, siguiendo el mismo procedimiento que con las poblaciones simuladas.
 
-Filtrado de datos 
+Filtrado de datos: 
 ```
 sbatch script_data_filtering.sh chr22_CEU
 sbatch script_data_filtering.sh chr22_FIN
 sbatch script_data_filtering.sh chr22_PJL
 ```
 
-Cálculo de la consanguinidad
+Cálculo de la consanguinidad:
 ```
 sbatch script_estimate_inbreeding.sh chr22_CEU_pruned
 sbatch script_estimate_inbreeding.sh chr22_FIN_pruned
 sbatch script_estimate_inbreeding.sh chr22_PJL_pruned
 ```
+
+Consanguinidad promedio por población:
+```
+# CEU
+awk 'NR==1 {print; next} {for(i=1;i<=NF;i++) sum[i]+=$i} END {for(i=1;i<=NF;i++) printf "%s%.4f", (i==1?"":" "), sum[i]/(NR-1); print ""}' results_inbreeding/chr22_CEU_pruned/chr22_CEU_pruned.inbreeding | column -t
+
+# FIN
+awk 'NR==1 {print; next} {for(i=1;i<=NF;i++) sum[i]+=$i} END {for(i=1;i<=NF;i++) printf "%s%.4f", (i==1?"":" "), sum[i]/(NR-1); print ""}' results_inbreeding/chr22_FIN_pruned/chr22_FIN_pruned.inbreeding | column -t
+
+# PJL
+awk 'NR==1 {print; next} {for(i=1;i<=NF;i++) sum[i]+=$i} END {for(i=1;i<=NF;i++) printf "%s%.4f", (i==1?"":" "), sum[i]/(NR-1); print ""}' results_inbreeding/chr22_PJL_pruned/chr22_PJL_pruned.inbreeding | column -t
+```
+
 
 ## 3. Estimación de la depresión consanguínea en una población ejemplo (*pop_ID*).
 
