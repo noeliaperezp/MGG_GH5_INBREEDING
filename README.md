@@ -36,6 +36,7 @@ git clone https://github.com/noeliaperezp/MGG_GH5_INBREEDING.git .
 ls
 ```
 
+-------------------------------------------------------------------------------------------
 ## 1. Estimación de la consanguinidad genómica en poblaciones simuladas
 
 ### *Simulación de poblaciones*
