@@ -105,6 +105,6 @@ awk '{print $6}' $DATASET.Fibc.ibc > temp2             # Fhat3 (or FYan)
 awk '{print $7}' $DATASET.FROH01.hom.indiv > temp3     # FROH01
 awk '{print $7}' $DATASET.FROH1.hom.indiv > temp4      # FROH1
 awk '{print $7}' $DATASET.FROH5.hom.indiv > temp5      # FROH5
-paste temp1 temp2 temp3 temp4 temp5 > $DATASET.inbreeding
+paste temp1 temp2 temp3 temp4 temp5 | column -t > $DATASET.inbreeding
 rm temp1 temp2 temp3 temp4 temp5
 
