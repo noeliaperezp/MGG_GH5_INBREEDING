@@ -1,15 +1,15 @@
 
 # MGG GH5 - ANÁLISIS DE CONSANGUINIDAD
 
-La consanguinidad (consecuencia del apareamiento entre individuos emparentados) es inevitable en poblaciones pequeñas en ausencia de migración, incluso cuando los apareamientos ocurren al azar. La consanguinidad suele ir asociado a una reducción de la eficacia media de las poblaciones, en comparación con poblaciones no consanguíneas, fenómeno conocido como depresión consanguínea. Esta reducción de la eficacia se debe principalmente al aumento de la homozigosis de mutaciones deletéreas (parcialmente) recesivas, que en poblaciones no consanguíneas permanecen enmascaradas en heterocigosis. La depresión endogámica tiene por tanto importantes consecuencias para la viabilidad y resiliencia de las poblaciones.
+La consanguinidad (consecuencia del apareamiento entre individuos emparentados) es inevitable en poblaciones pequeñas en ausencia de migración, incluso cuando los apareamientos ocurren al azar. La consanguinidad suele ir asociada a una reducción de la eficacia media de las poblaciones, en comparación con poblaciones no consanguíneas, fenómeno conocido como depresión consanguínea. Esta reducción de la eficacia se debe principalmente al aumento de la homocigosis de mutaciones deletéreas (parcialmente) recesivas, que en poblaciones no consanguíneas permanecen enmascaradas en heterocigosis. La depresión consanguínea tiene por tanto importantes consecuencias para la viabilidad y resiliencia de las poblaciones.
 
 La depresión consanguínea se puede estimar a partir de la pendiente de la regresión lineal de los valores fenotípicos de los individuos en función de sus coeficientes de consanguinidad. El grado de consanguinidad de un individuo se cuantifica mediante el coeficiente de consanguinidad *F* (Wright, 1922), que representa la probabilidad de que dos alelos en un locus sean idénticos por descendencia (IBD). Tradicionalmente, este coeficiente se ha estimado a partir de genealogías, lo que conlleva una serie de limitaciones: las genealogías suelen ser incompletas o inexistentes y solo reflejan expectativas teóricas, por lo que pueden diferir del nivel real de consanguinidad de cada individuo. Actualmente, la gran disponibilidad de marcadores moleculares (SNPs) permite estimar la consanguinidad de un individuo sin necesidad de datos genealógicos. A estas medidas se les conoce como consanguinidad molecular o genómica, y proporcionan estimaciones más precisas de la fracción del genoma que realmente es idéntica por descendencia, por lo que constituyen una herramienta muy útil para detectar depresión consanguínea. 
 
-Existen distintos estimadores genómicos de *F*. Algunos se basan en el análisis SNP por SNP, que dependen de las frecuencias alélicas (e.g., el coeficiente *F* de Yang; Yang *et al.*, 2011), y otros se basan en la detección de Runs of Homozygosity (ROH), que son regiones del genoma que son homocigotas para la gran mayoría de las bases nucleotídicas (McQuillan et al., 2008). Los métodos basados en el análisis SNP por SNP suelen utilizar las frecuencias de la generación actual, ya que, por lo general, se desconocen las frecuencias de generaciones anteriores (población de partida o población de referencia). En estos casos, estas estimaciones reflejan desviaciones de las frecuencias esperadas en el equilibrio de Hardy-Weinberg o correlaciones entre alelos, por lo que pueden adoptar valores negativos. Las estimaciones basadas en ROH, en cambio, proporcionan medidas de IBD. Aún existe debate sobre qué estimador refleja mejor la depresión consanguínea, pero tanto las medidas basadas en SNP como las basadas en ROH han demostrado ser eficaces para detectarla. En poblaciones donde no hay información histórica ni genealogías, las estimaciones genómicas de *F* ofrecen una herramienta práctica y potente para estudiar la consanguinidad y sus efectos sobre la eficacia.
+Existen distintos estimadores genómicos de *F*. Algunos se basan en el análisis SNP por SNP, que dependen de las frecuencias alélicas (e.g., el coeficiente *F* de Yang; Yang *et al.*, 2011), y otros se basan en la detección de Runs of Homozygosity (ROH), que son regiones del genoma que son homocigotas para la gran mayoría de las bases nucleotídicas (McQuillan *et al.*, 2008). Los métodos basados en el análisis SNP por SNP suelen utilizar las frecuencias de la generación actual, ya que, por lo general, se desconocen las frecuencias de generaciones anteriores (población de partida o población de referencia). En estos casos, estas estimaciones reflejan desviaciones de las frecuencias esperadas en el equilibrio de Hardy-Weinberg o correlaciones entre alelos, por lo que pueden adoptar valores negativos. Las estimaciones basadas en ROH, en cambio, proporcionan medidas de IBD. Aún existe debate sobre qué estimador refleja mejor la depresión consanguínea, pero tanto las medidas basadas en SNP como las basadas en ROH han demostrado ser eficaces para detectarla. En poblaciones donde no hay información histórica ni genealogías, las estimaciones genómicas de *F* ofrecen una herramienta práctica y potente para estudiar la consanguinidad y sus efectos sobre la eficacia.
 
 En esta sesión práctica aprenderemos a calcular la consanguinidad genómica con diversos estimadores y a estimar la depresión consanguínea a partir de ellos. Para ello, dividiremos la sesión en tres secciones:
 1. Estimación de la consanguinidad genómica en poblaciones simuladas:
-   - Simulación de las poblaciones de estudio con el programa SLIM:
+   - Simulación de las poblaciones de estudio con el programa SLiM:
       - Población de gran tamaño con panmixia.
       - Población de gran tamaño que sufrió un cuello de botella hace 50 generaciones.
       - Población donde existe preferencia por apareamientos entre parientes.  
@@ -55,13 +55,13 @@ Comprueba que se han enviado los trabajos y su estado de ejecución.
 squeue
 ```
 
-Una vez finalizado (*squeue* no devuelve ningún trabajo), encontrarás en el directorio *Data* dos nuevos archivos para cada uno de los escenarios poblacionales:
+Una vez finalizado (*squeue* no devuelve ningún trabajo), encontrarás en el directorio *data* dos nuevos archivos para cada uno de los escenarios poblacionales:
 ```
 ls data/
 ```
 
-- **.txt*, con información sobre el tamaño poblacional por generación y heterocigosidad.
-- **.vcf*, archivo VCF (Variant Call Format) con las variantes simuladas.
+- *\*.txt*, con información sobre el tamaño poblacional por generación y heterocigosidad.
+- *\*.vcf*, archivo VCF (Variant Call Format) con las variantes simuladas.
 
 ### *1.2. Filtrado de datos*
 
@@ -133,9 +133,9 @@ ls data_pruned/
 
 En *PLINK* existen tres comandos que permiten obtener diversos estimadores de consanguinidad. 
 
-El comando *--het* calcula los recuentos de genotipos homocigotos observados y esperados para cada individuo y estima la consanguinidad basada en la desviación de las proporciones de Hardy-Weinberg (*F<sub>LH*; Li and Horvitz, 1953). El comando *--ibc* calcula diversos estimadores basados en derivaciones de deriva genética, incluyendo el coeficiente *F* de Yang. 
+El comando *--het* calcula los recuentos de genotipos homocigotos observados y esperados para cada individuo y estima la consanguinidad basada en la desviación de las proporciones de Hardy-Weinberg (*F<sub>LH</sub>*; Li y Horvitz, 1953). El comando *--ibc* calcula diversos estimadores basados en la correlación entre gametos, incluyendo el coeficiente *F* de Yang. 
 
-El comando *--homozyg* infiere consanguidad a partir de los ROH. Un aspecto destacable de los ROH es que su longitud esperada sigue una distribución exponencial con media 1/2G Morgan, donde G es el número de generaciones hasta el ancestro común del que se derivó el segmento. Este aspecto puede utilizarse para distinguir parentesco reciente y lejano. Por ello, utilizaremos tres límites para el tamaño mínimo de los ROH (0.1Mb y 500 generaciones ancestrales, 1Mb y 50 generaciones ancestrales, y 5Mb y 10 generaciones ancestrales, asumiendo una relación 1Mb/cM).
+El comando *--homozyg* infiere consanguinidad a partir de los ROH. Un aspecto destacable de los ROH es que su longitud esperada sigue una distribución exponencial con media 1/(2G) Morgans, donde G es el número de generaciones hasta el ancestro común del que se derivó el segmento. Este aspecto puede utilizarse para distinguir parentesco reciente y lejano. Por ello, utilizaremos tres límites para el tamaño mínimo de los ROH (0.1Mb y 500 generaciones ancestrales, 1Mb y 50 generaciones ancestrales, y 5Mb y 10 generaciones ancestrales, asumiendo una relación 1Mb ≈ 1cM).
 
 Empezaremos con la población simulada bajo panmixia (*slim3INPUT_random_mating_pruned*).
 
@@ -155,7 +155,7 @@ cd results_inbreeding/slim3INPUT_random_mating_pruned/
 plink --bfile ../../data_pruned/slim3INPUT_random_mating_pruned --het --out slim3INPUT_random_mating_pruned.Fhet
 
 sed '1d' slim3INPUT_random_mating_pruned.Fhet.het > temp1       # remove headers
-awk '{print ($3/$5)}' temp1 > temp2                             # calculate average number of homozygous SNPs
+awk '{print ($3/$5)}' temp1 > temp2                             # calculate proportion of homozygous SNPs
 sed -i '1i Fhom' temp2                                          # add header
 paste slim3INPUT_random_mating_pruned.Fhet.het temp2 > temp3    # add new column 'Fhom'
 rm temp1 temp2 slim3INPUT_random_mating_pruned.Fhet.het         # delete unnecessary files
@@ -171,7 +171,7 @@ Encabezados del output **.het*
 - F: Estima del coeficiente de consanguinidad F
 - (Añadido) Fhom: Proporción de SNP homocigotos
 
-#### --ibc (F<sub>hatI</sub>, F<sub>hatII</sub>, F<sub>hatII</sub>)
+#### --ibc (F<sub>hatI</sub>, F<sub>hatII</sub>, F<sub>hatIII</sub>)
 ```
 plink --bfile ../../data_pruned/slim3INPUT_random_mating_pruned --ibc --out slim3INPUT_random_mating_pruned.Fibc
 
@@ -183,7 +183,7 @@ Encabezados del output **.ibc*
 - FID: ID de la familia
 - IID: ID del individuo
 - NOMISS: Número de genotipos
-- Fhat1, Fhat2, Fhat3 (*F<sub>Yang*): Estimas del coeficiente de consanguinidad *F*
+- Fhat1, Fhat2, Fhat3 (*F<sub>Yan</sub>*): Estimas del coeficiente de consanguinidad *F*
 
 #### --homozyg (F<sub>ROH</sub>, ROH > 0.1 Mb)
 ```
@@ -200,26 +200,28 @@ mv temp3 slim3INPUT_random_mating_pruned.FROH01.hom.indiv             # rename t
 Encabezados del output **.hom*
 - FID: ID de la familia
 - IID: ID del individuo
+- PHE: fenotipo
 - CHR: Cromosoma
 - SNP1: SNP al inicio del segmento
 - SNP2: SNP al final del segmento
 - POS1: Posición física (bp) del SNP1
 - POS2: Posición física (bp) del SNP2
 - KB: Longitud del segmento (kb)
-- NSNP: Número de SNPs in ROH
+- NSNP: Número de SNPs en ROH
 - DENSITY: Densidad media de SNPs (1 SNP per kb)
 - PHOM: Proporción de sitios homocigotos
-- PHET: Proporción de sitios heterocigos
+- PHET: Proporción de sitios heterocigotos
 
 Encabezados del output **.hom.indiv*
 - FID: ID de la familia
 - IID: ID del individuo
+- PHE: fenotipo
 - NSEG: Número de ROHs por individuo
-- KB: longitug total en ROH
+- KB: longitud total en ROH
 - KBAVG: Tamaño medio de los ROH
 - (añadido) FROH: estima del coeficiente de consanguinidad
 
-#### --homozyg (FROH, ROH > 1 Mb)
+#### --homozyg (F<sub>ROH</sub>, ROH > 1 Mb)
 ```
 plink --bfile ../../data_pruned/slim3INPUT_random_mating_pruned --homozyg-kb 1000 --homozyg --out slim3INPUT_random_mating_pruned.FROH1
 
@@ -231,7 +233,7 @@ rm temp1 temp2 slim3INPUT_random_mating_pruned.FROH1.hom.indiv       # delete un
 mv temp3 slim3INPUT_random_mating_pruned.FROH1.hom.indiv             # rename the final output file
 ```
 
-#### --homozyg (FROH, ROH > 5 Mb)
+#### --homozyg (F<sub>ROH</sub>, ROH > 5 Mb)
 ```
 plink --bfile ../../data_pruned/slim3INPUT_random_mating_pruned --homozyg-kb 5000 --homozyg --out slim3INPUT_random_mating_pruned.FROH5
 
@@ -278,9 +280,9 @@ awk 'NR==1 {print; next} {for(i=1;i<=NF;i++) sum[i]+=$i} END {for(i=1;i<=NF;i++)
 awk 'NR==1 {print; next} {for(i=1;i<=NF;i++) sum[i]+=$i} END {for(i=1;i<=NF;i++) printf "%s%.4f", (i==1?"":" "), sum[i]/(NR-1); print ""}' results_inbreeding/slim3INPUT_preference_for_kin_pruned/slim3INPUT_preference_for_kin_pruned.inbreeding | column -t
 ```
 
-## 2. Estimación de la consanguinidad genómica en poblaciones humanas (Proyecto 1000 Genomas).
+## 2. Estimación de la consanguinidad genómica en poblaciones humanas (Proyecto 1000 Genomas)
 
-Estima la consanguinidad para cada una de las poblaciones humanas, CEU, FIN, Y PJL, siguiendo el mismo procedimiento que con las poblaciones simuladas.
+Estima la consanguinidad para cada una de las poblaciones humanas, CEU, FIN, y PJL, siguiendo el mismo procedimiento que con las poblaciones simuladas.
 
 Filtrado de datos: 
 ```
@@ -289,7 +291,7 @@ sbatch script_data_filtering.sh chr22_FIN
 sbatch script_data_filtering.sh chr22_PJL
 ```
 
-Cálculo de la consanguinidad:
+Cálculo de la consanguinidad (teniendo en cuenta que la longitud del cromosoma 22 es de aproximadamente 51Mb):
 ```
 sbatch script_estimate_inbreeding.sh chr22_CEU_pruned
 sbatch script_estimate_inbreeding.sh chr22_FIN_pruned
@@ -323,7 +325,7 @@ Cálculo de la consanguinidad
 sbatch script_estimate_inbreeding.sh pop_ID_pruned
 ```
 
-La pendiente de la regresión lineal proporciona una estima del porcentaje de cambio en la media por cada aumento de 0,01 (1%) en la consanguinidad. 
+La pendiente de la regresión lineal proporciona una estima del cambio en la media por unidad de *F*. 
 
 
 ### *Transferencia de ficheros del CESGA a tu sistema local*
