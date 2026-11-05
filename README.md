@@ -293,9 +293,9 @@ sbatch script_data_filtering.sh chr22_PJL
 
 Cálculo de la consanguinidad (teniendo en cuenta que la longitud del cromosoma 22 es de aproximadamente 51Mb):
 ```
-sbatch script_estimate_inbreeding.sh chr22_CEU_pruned
-sbatch script_estimate_inbreeding.sh chr22_FIN_pruned
-sbatch script_estimate_inbreeding.sh chr22_PJL_pruned
+sbatch script_estimate_inbreeding_humans.sh chr22_CEU_pruned
+sbatch script_estimate_inbreeding_humans.sh chr22_FIN_pruned
+sbatch script_estimate_inbreeding_humans.sh chr22_PJL_pruned
 ```
 
 Consanguinidad promedio por población:
