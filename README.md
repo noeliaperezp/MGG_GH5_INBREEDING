@@ -40,12 +40,11 @@ ls
 
 ### *Simulación de poblaciones*
 
-Utilizaremos el script *script_run_SLiM.sh* para simular los cuatro escenarios en paralelo. Para enviar el trabajo al sistema de colas se utiliza el comando *sbatch*.
+Utilizaremos el script *script_run_SLiM.sh* para simular los tres escenarios en paralelo. Para enviar el trabajo al sistema de colas se utiliza el comando *sbatch*.
 
 ```
 sbatch script_run_SLiM.sh slim3INPUT_random_mating
 sbatch script_run_SLiM.sh slim3INPUT_bottleneck
-sbatch script_run_SLiM.sh slim3INPUT_partial_selfing
 sbatch script_run_SLiM.sh slim3INPUT_preference_for_kin
 ```
 
