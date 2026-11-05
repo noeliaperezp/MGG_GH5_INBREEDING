@@ -151,7 +151,7 @@ mkdir -p results_inbreeding/slim3INPUT_random_mating_pruned
 cd results_inbreeding/slim3INPUT_random_mating_pruned/
 ```
 
-#### --het (F<sub>LH, F<sub>hom)
+#### --het (F<sub>LH, F<sub>hom )
 ```
 plink --bfile ../../data_pruned/slim3INPUT_random_mating_pruned --het --out slim3INPUT_random_mating_pruned.Fhet
 
