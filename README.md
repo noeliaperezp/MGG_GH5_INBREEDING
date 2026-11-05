@@ -190,7 +190,7 @@ Encabezados del output **.ibc*
 plink --bfile ../../data_pruned/slim3INPUT_random_mating_pruned --homozyg-kb 100 --homozyg --out slim3INPUT_random_mating_pruned.FROH01
 
 sed '1d' slim3INPUT_random_mating_pruned.FROH01.hom.indiv > temp1     # remove headers
-awk '{print ($5/1000000)}' temp1 > temp2                              # calculate FROH (genome length 100Mb = 1000000Kb)
+awk '{print ($5/100000)}' temp1 > temp2                               # calculate FROH (genome length 100Mb = 100000Kb)
 sed -i '1i FROH01' temp2                                              # add header
 paste slim3INPUT_random_mating_pruned.FROH01.hom.indiv temp2 > temp3  # add new column 'FROH'
 rm temp1 temp2 slim3INPUT_random_mating_pruned.FROH01.hom.indiv       # delete unnecessary files
@@ -224,7 +224,7 @@ Encabezados del output **.hom.indiv*
 plink --bfile ../../data_pruned/slim3INPUT_random_mating_pruned --homozyg-kb 1000 --homozyg --out slim3INPUT_random_mating_pruned.FROH1
 
 sed '1d' slim3INPUT_random_mating_pruned.FROH1.hom.indiv > temp1     # remove headers
-awk '{print ($5/1000000)}' temp1 > temp2                             # calculate FROH (genome length 100Mb = 1000000Kb)
+awk '{print ($5/100000)}' temp1 > temp2                              # calculate FROH (genome length 100Mb = 100000Kb)
 sed -i '1i FROH1' temp2                                              # add header
 paste slim3INPUT_random_mating_pruned.FROH1.hom.indiv temp2 > temp3  # add new column 'FROH'
 rm temp1 temp2 slim3INPUT_random_mating_pruned.FROH1.hom.indiv       # delete unnecessary files
@@ -236,7 +236,7 @@ mv temp3 slim3INPUT_random_mating_pruned.FROH1.hom.indiv             # rename th
 plink --bfile ../../data_pruned/slim3INPUT_random_mating_pruned --homozyg-kb 5000 --homozyg --out slim3INPUT_random_mating_pruned.FROH5
 
 sed '1d' slim3INPUT_random_mating_pruned.FROH5.hom.indiv > temp1     # remove headers
-awk '{print ($5/1000000)}' temp1 > temp2                              # calculate FROH (genome length 100Mb = 1000000Kb)
+awk '{print ($5/100000)}' temp1 > temp2                              # calculate FROH (genome length 100Mb = 100000Kb)
 sed -i '1i FROH5' temp2                                              # add header
 paste slim3INPUT_random_mating_pruned.FROH5.hom.indiv temp2 > temp3  # add new column 'FROH'
 rm temp1 temp2 slim3INPUT_random_mating_pruned.FROH5.hom.indiv       # delete unnecessary files
